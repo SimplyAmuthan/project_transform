@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Incident Triage Agent - UI Mockups</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --usb-red: #D71E28;
+    --usb-red-dark: #B01820;
+    --usb-navy: #002855;
+    --usb-navy-light: #003A75;
+    --usb-blue: #0066CC;
+    --usb-blue-light: #E8F0FE;
+    --usb-gray-100: #F7F8FA;
+    --usb-gray-200: #EBEDF0;
+    --usb-gray-300: #D1D5DB;
+    --usb-gray-400: #9CA3AF;
+    --usb-gray-500: #6B7280;
+    --usb-gray-700: #374151;
+    --usb-gray-900: #1F2937;
+    --usb-green: #059669;
+    --usb-green-light: #D1FAE5;
+    --usb-amber: #D97706;
+    --usb-amber-light: #FEF3C7;
+    --usb-red-light: #FEE2E2;
+    --font-main: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+    --radius: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-main); background: var(--usb-gray-100); color: var(--usb-gray-900); }
+
+  /* ── Page title ── */
+  .mockup-header {
+    background: var(--usb-navy);
+    color: white;
+    padding: 32px 40px;
+    text-align: center;
+  }
+  .mockup-header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+  .mockup-header p { font-size: 15px; color: rgba(255,255,255,0.7); margin-top: 6px; }
+  .mockup-label {
+    text-align: center;
+    padding: 24px 16px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--usb-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .mockup-container {
+    max-width: 1200px;
+    margin: 0 auto 48px;
+    padding: 0 24px;
+  }
+
+  /* ══════════════════════════════════════════════════
+     MOCKUP 1: MAIN CHAT INTERFACE
+     ══════════════════════════════════════════════════ */
+  .chat-app {
+    display: flex;
+    height: 700px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--usb-gray-200);
+    background: white;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 280px;
+    background: var(--usb-navy);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  .sidebar-brand {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sidebar-brand .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--usb-red);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: white; font-size: 16px;
+  }
+  .sidebar-brand .brand-text {
+    color: white; font-size: 15px; font-weight: 600;
+    line-height: 1.2;
+  }
+  .sidebar-brand .brand-text span { display: block; font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.5); }
+
+  .new-chat-btn {
+    margin: 16px 16px 12px;
+    background: var(--usb-red);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-main);
+    transition: background 0.15s;
+  }
+  .new-chat-btn:hover { background: var(--usb-red-dark); }
+
+  .session-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 8px;
+  }
+  .session-label {
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 12px 6px;
+  }
+  .session-item {
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.12s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2px;
+  }
+  .session-item:hover { background: rgba(255,255,255,0.08); }
+  .session-item.active { background: rgba(255,255,255,0.12); color: white; }
+  .session-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .session-item .dot.sev1 { background: #EF4444; }
+  .session-item .dot.sev2 { background: #F59E0B; }
+  .session-item .dot.sev3 { background: #3B82F6; }
+  .session-item .meta { font-size: 11px; color: rgba(255,255,255,0.35); margin-left: auto; }
+
+  .sidebar-footer {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sidebar-footer .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--usb-blue);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 13px; font-weight: 600;
+  }
+  .sidebar-footer .user-info { color: rgba(255,255,255,0.8); font-size: 13px; }
+  .sidebar-footer .user-info span { display: block; font-size: 11px; color: rgba(255,255,255,0.4); }
+
+  /* Main chat area */
+  .chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+  }
+
+  /* Chat header */
+  .chat-header {
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--usb-gray-200);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: white;
+  }
+  .chat-header .incident-badge {
+    background: var(--usb-red-light);
+    color: var(--usb-red);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .chat-header .chat-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--usb-gray-900);
+  }
+  .chat-header .sev-tag {
+    background: var(--usb-amber-light);
+    color: var(--usb-amber);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .chat-header .header-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+  }
+  .chat-header .header-actions button {
+    background: var(--usb-gray-100);
+    border: 1px solid var(--usb-gray-300);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--usb-gray-700);
+    font-family: var(--font-main);
+  }
+
+  /* Messages area */
+  .messages-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+  }
+  .message {
+    margin-bottom: 24px;
+    display: flex;
+    gap: 12px;
+    max-width: 85%;
+  }
+  .message.user { margin-left: auto; flex-direction: row-reverse; }
+  .message .msg-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .message.assistant .msg-avatar { background: var(--usb-navy); color: white; }
+  .message.user .msg-avatar { background: var(--usb-blue); color: white; }
+  .msg-content {
+    background: var(--usb-gray-100);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--usb-gray-900);
+  }
+  .message.user .msg-content {
+    background: var(--usb-navy);
+    color: white;
+    border-radius: 12px 12px 4px 12px;
+  }
+  .message.assistant .msg-content {
+    border-radius: 12px 12px 12px 4px;
+  }
+
+  /* Tool invocation cards */
+  .tool-card {
+    background: white;
+    border: 1px solid var(--usb-gray-200);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tool-card .tool-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .tool-card .tool-icon.datadog { background: #632CA6; color: white; }
+  .tool-card .tool-icon.servicenow { background: #62D84E; color: white; }
+  .tool-card .tool-icon.confluence { background: #1868DB; color: white; }
+  .tool-card .tool-name { font-weight: 600; color: var(--usb-gray-700); }
+  .tool-card .tool-status { margin-left: auto; font-size: 12px; }
+  .tool-card .tool-status.done { color: var(--usb-green); }
+  .tool-card .tool-time { color: var(--usb-gray-400); font-size: 11px; }
+
+  /* RCA Result Card */
+  .rca-card {
+    background: white;
+    border: 1px solid var(--usb-gray-200);
+    border-radius: 10px;
+    margin: 12px 0 0;
+    overflow: hidden;
+  }
+  .rca-card .rca-header {
+    background: var(--usb-navy);
+    color: white;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rca-card .rca-body { padding: 16px; }
+  .rca-card .rca-field { margin-bottom: 12px; }
+  .rca-card .rca-label { font-size: 11px; font-weight: 600; color: var(--usb-gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .rca-card .rca-value { font-size: 14px; color: var(--usb-gray-900); line-height: 1.5; }
+  .confidence-bar {
+    height: 6px;
+    background: var(--usb-gray-200);
+    border-radius: 3px;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .confidence-bar .fill {
+    height: 100%;
+    background: var(--usb-green);
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+  .rca-actions {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--usb-gray-200);
+    background: var(--usb-gray-100);
+  }
+  .rca-actions button {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-main);
+    border: none;
+  }
+  .rca-actions .btn-primary { background: var(--usb-red); color: white; }
+  .rca-actions .btn-secondary { background: white; color: var(--usb-gray-700); border: 1px solid var(--usb-gray-300); }
+
+  /* Evidence pills */
+  .evidence-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .evidence-pill {
+    background: var(--usb-blue-light);
+    color: var(--usb-blue);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* Recommended actions */
+  .action-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .action-item .priority-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .action-item .priority-dot.immediate { background: var(--usb-red); }
+  .action-item .priority-dot.short-term { background: var(--usb-amber); }
+  .action-item .priority-dot.long-term { background: var(--usb-blue); }
+
+  /* Chat input */
+  .chat-input-area {
+    padding: 16px 24px;
+    border-top: 1px solid var(--usb-gray-200);
+    background: white;
+  }
+  .chat-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--usb-gray-100);
+    border: 1px solid var(--usb-gray-300);
+    border-radius: 10px;
+    padding: 4px 4px 4px 16px;
+    gap: 8px;
+    transition: border-color 0.15s;
+  }
+  .chat-input-wrapper:focus-within { border-color: var(--usb-blue); box-shadow: 0 0 0 3px rgba(0,102,204,0.1); }
+  .chat-input-wrapper input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-family: var(--font-main);
+    color: var(--usb-gray-900);
+    outline: none;
+  }
+  .chat-input-wrapper input::placeholder { color: var(--usb-gray-400); }
+  .send-btn {
+    background: var(--usb-red);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .send-btn:hover { background: var(--usb-red-dark); }
+  .input-hints {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    padding-left: 4px;
+  }
+  .input-hints span {
+    font-size: 11px;
+    color: var(--usb-gray-400);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .input-hints kbd {
+    background: var(--usb-gray-200);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-family: var(--font-main);
+  }
+
+  /* ══════════════════════════════════════════════════
+     MOCKUP 2: DASHBOARD VIEW
+     ══════════════════════════════════════════════════ */
+  .dashboard {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--usb-gray-200);
+  }
+  .dash-topbar {
+    background: var(--usb-navy);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: white;
+  }
+  .dash-topbar .dash-logo {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dash-topbar .dash-logo .mark {
+    background: var(--usb-red);
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+  }
+  .dash-topbar nav { display: flex; gap: 4px; margin-left: 40px; }
+  .dash-topbar nav a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: 0.12s;
+  }
+  .dash-topbar nav a.active { color: white; background: rgba(255,255,255,0.12); }
+  .dash-topbar nav a:hover { color: white; }
+
+  .dash-content { padding: 24px; }
+  .dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--usb-gray-100);
+    border: 1px solid var(--usb-gray-200);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .stat-card .stat-label { font-size: 12px; color: var(--usb-gray-500); font-weight: 500; margin-bottom: 4px; }
+  .stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--usb-navy); }
+  .stat-card .stat-change { font-size: 12px; margin-top: 4px; font-weight: 500; }
+  .stat-card .stat-change.positive { color: var(--usb-green); }
+  .stat-card .stat-change.negative { color: var(--usb-red); }
+
+  .dash-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+  .dash-panel {
+    background: var(--usb-gray-100);
+    border: 1px solid var(--usb-gray-200);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .dash-panel .panel-title {
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--usb-gray-900);
+    border-bottom: 1px solid var(--usb-gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+  }
+  .panel-badge {
+    background: var(--usb-red-light);
+    color: var(--usb-red);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .incident-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--usb-gray-200);
+    gap: 12px;
+    background: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .incident-row:hover { background: var(--usb-blue-light); }
+  .incident-row:last-child { border-bottom: none; }
+  .incident-row .sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .incident-row .sev.s1 { background: #FEE2E2; color: #DC2626; }
+  .incident-row .sev.s2 { background: #FEF3C7; color: #D97706; }
+  .incident-row .sev.s3 { background: #DBEAFE; color: #2563EB; }
+  .incident-row .inc-id { font-weight: 600; color: var(--usb-navy); width: 100px; }
+  .incident-row .inc-desc { flex: 1; color: var(--usb-gray-700); }
+  .incident-row .inc-time { color: var(--usb-gray-400); font-size: 12px; }
+  .incident-row .ai-badge {
+    background: var(--usb-green-light);
+    color: var(--usb-green);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .activity-item {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--usb-gray-200);
+    background: white;
+    font-size: 13px;
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-item .activity-time { font-size: 11px; color: var(--usb-gray-400); margin-bottom: 4px; }
+  .activity-item .activity-text { color: var(--usb-gray-700); line-height: 1.4; }
+  .activity-item .activity-text strong { color: var(--usb-navy); }
+
+  /* ══════════════════════════════════════════════════
+     MOCKUP 3: TRIAGE REPORT VIEW
+     ══════════════════════════════════════════════════ */
+  .report-view {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--usb-gray-200);
+  }
+  .report-header {
+    background: var(--usb-navy);
+    color: white;
+    padding: 24px 32px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .report-header h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .report-header .report-sub { font-size: 13px; color: rgba(255,255,255,0.6); }
+  .report-header .report-sev {
+    background: #F59E0B;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .report-body { padding: 32px; }
+  .report-section { margin-bottom: 28px; }
+  .report-section h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--usb-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--usb-red);
+    display: inline-block;
+  }
+  .report-section p { font-size: 14px; color: var(--usb-gray-700); line-height: 1.7; }
+
+  .timeline {
+    position: relative;
+    padding-left: 24px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--usb-gray-300);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 16px;
+    padding-left: 20px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--usb-red);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--usb-red);
+  }
+  .timeline-item .tl-time { font-size: 12px; font-weight: 600; color: var(--usb-navy); margin-bottom: 2px; }
+  .timeline-item .tl-desc { font-size: 13px; color: var(--usb-gray-700); line-height: 1.4; }
+
+  .evidence-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .evidence-table th {
+    background: var(--usb-navy);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .evidence-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--usb-gray-200);
+    color: var(--usb-gray-700);
+  }
+  .evidence-table tr:nth-child(even) td { background: var(--usb-gray-100); }
+  .relevance-bar {
+    width: 60px;
+    height: 4px;
+    background: var(--usb-gray-200);
+    border-radius: 2px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  .relevance-bar .bar-fill {
+    height: 100%;
+    background: var(--usb-green);
+    border-radius: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-header">
+  <h1>AI Incident Triage & RCA Agent &mdash; UI Mockups</h1>
+  <p>U.S. Bank &middot; Embedded Finance Division &middot; Appendix D</p>
+</div>
+
+<!-- ═══════════════ MOCKUP 1: CHAT INTERFACE ═══════════════ -->
+<div class="mockup-label">Mockup 1 &mdash; Primary Chat Interface</div>
+<div class="mockup-container">
+<div class="chat-app">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-mark">U</div>
+      <div class="brand-text">IR&C Agent<span>AI Incident Triage</span></div>
+    </div>
+    <button class="new-chat-btn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      New Triage Session
+    </button>
+    <div class="session-list">
+      <div class="session-label">Active</div>
+      <div class="session-item active">
+        <div class="dot sev2"></div>
+        INC0012345 &ndash; Payment 500s
+        <span class="meta">5m</span>
+      </div>
+      <div class="session-item">
+        <div class="dot sev1"></div>
+        INC0012340 &ndash; Auth Timeout
+        <span class="meta">1h</span>
+      </div>
+      <div class="session-label">Today</div>
+      <div class="session-item">
+        <div class="dot sev3"></div>
+        INC0012338 &ndash; Slow Queries
+        <span class="meta">3h</span>
+      </div>
+      <div class="session-item">
+        <div class="dot sev2"></div>
+        INC0012335 &ndash; API Latency
+        <span class="meta">6h</span>
+      </div>
+      <div class="session-label">Yesterday</div>
+      <div class="session-item">
+        <div class="dot sev3"></div>
+        INC0012330 &ndash; Cert Expiry
+        <span class="meta">1d</span>
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="avatar">AM</div>
+      <div class="user-info">Amuthan M.<span>SRE Team &middot; L3</span></div>
+    </div>
+  </div>
+
+  <!-- Main Chat -->
+  <div class="chat-main">
+    <div class="chat-header">
+      <span class="incident-badge">INC0012345</span>
+      <span class="chat-title">Payment Gateway &ndash; 500 Errors</span>
+      <span class="sev-tag">SEV2</span>
+      <div class="header-actions">
+        <button>Export</button>
+        <button>ServiceNow &rarr;</button>
+      </div>
+    </div>
+
+    <div class="messages-area">
+      <!-- User message -->
+      <div class="message user">
+        <div class="msg-avatar">AM</div>
+        <div class="msg-content">
+          Investigate INC0012345 &mdash; we're seeing a spike in 500 errors on the payment-gateway service in production. Started about 45 minutes ago. What's the root cause?
+        </div>
+      </div>
+
+      <!-- Assistant response with tools -->
+      <div class="message assistant">
+        <div class="msg-avatar">AI</div>
+        <div class="msg-content">
+          I'll investigate INC0012345 right away. Let me gather data from multiple sources to identify the root cause.
+
+          <div class="tool-card">
+            <div class="tool-icon servicenow">S</div>
+            <div><span class="tool-name">servicenow_get_incident</span><br><span style="font-size:12px;color:var(--usb-gray-400)">Fetching incident details for INC0012345</span></div>
+            <span class="tool-status done">&#10003; Done</span>
+            <span class="tool-time">650ms</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon datadog">D</div>
+            <div><span class="tool-name">datadog_query_logs</span><br><span style="font-size:12px;color:var(--usb-gray-400)">Searching ERROR logs for payment-gateway (last 1h)</span></div>
+            <span class="tool-status done">&#10003; Done</span>
+            <span class="tool-time">1.2s</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon datadog">D</div>
+            <div><span class="tool-name">datadog_get_metrics</span><br><span style="font-size:12px;color:var(--usb-gray-400)">Retrieving db.pool.active and error_rate metrics</span></div>
+            <span class="tool-status done">&#10003; Done</span>
+            <span class="tool-time">890ms</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon servicenow">S</div>
+            <div><span class="tool-name">servicenow_get_changes</span><br><span style="font-size:12px;color:var(--usb-gray-400)">Checking recent changes for payment-gateway CI</span></div>
+            <span class="tool-status done">&#10003; Done</span>
+            <span class="tool-time">720ms</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon confluence">C</div>
+            <div><span class="tool-name">confluence_get_runbook</span><br><span style="font-size:12px;color:var(--usb-gray-400)">Loading payment-gateway runbook</span></div>
+            <span class="tool-status done">&#10003; Done</span>
+            <span class="tool-time">1.1s</span>
+          </div>
+
+          <!-- RCA Card -->
+          <div class="rca-card">
+            <div class="rca-header">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3M8 10h0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Root Cause Analysis &mdash; 87% Confidence
+            </div>
+            <div class="rca-body">
+              <div class="rca-field">
+                <div class="rca-label">Root Cause Hypothesis</div>
+                <div class="rca-value"><strong>Database connection pool exhaustion</strong> in payment-gateway caused by increased query complexity from deployment CHG0098765 (deployed at 13:45 UTC). The new JOIN queries increased average query latency by 3x, causing active connections to saturate the pool (max: 20) at 13:52 UTC.</div>
+              </div>
+              <div class="rca-field">
+                <div class="rca-label">Confidence Score</div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div class="confidence-bar" style="flex:1;"><div class="fill" style="width:87%"></div></div>
+                  <span style="font-size:18px;font-weight:700;color:var(--usb-green);">87%</span>
+                </div>
+              </div>
+              <div class="rca-field">
+                <div class="rca-label">Evidence Sources</div>
+                <div class="evidence-list">
+                  <span class="evidence-pill">Datadog Metrics (95%)</span>
+                  <span class="evidence-pill">Datadog Logs (92%)</span>
+                  <span class="evidence-pill">ServiceNow Changes (88%)</span>
+                  <span class="evidence-pill">Confluence Runbook (72%)</span>
+                </div>
+              </div>
+              <div class="rca-field">
+                <div class="rca-label">Recommended Actions</div>
+                <div class="action-item">
+                  <div class="priority-dot immediate"></div>
+                  <span><strong>Immediate:</strong> Increase connection pool max-size from 20 to 50</span>
+                </div>
+                <div class="action-item">
+                  <div class="priority-dot immediate"></div>
+                  <span><strong>Immediate:</strong> Add Resilience4j circuit breaker around DB calls</span>
+                </div>
+                <div class="action-item">
+                  <div class="priority-dot short-term"></div>
+                  <span><strong>Conditional:</strong> Roll back CHG0098765 if pool resize is insufficient</span>
+                </div>
+                <div class="action-item">
+                  <div class="priority-dot long-term"></div>
+                  <span><strong>Long-term:</strong> Implement connection pool auto-scaling based on load</span>
+                </div>
+              </div>
+            </div>
+            <div class="rca-actions">
+              <button class="btn-primary">Confirm RCA</button>
+              <button class="btn-secondary">Post to Teams</button>
+              <button class="btn-secondary">Update ServiceNow</button>
+              <button class="btn-secondary">Export Report</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <div class="chat-input-wrapper">
+        <input type="text" placeholder="Ask a follow-up question or start a new triage..." />
+        <button class="send-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8L2 2l2 6-2 6z" fill="currentColor"/></svg>
+        </button>
+      </div>
+      <div class="input-hints">
+        <span><kbd>&#8593;</kbd> History</span>
+        <span><kbd>/</kbd> Commands</span>
+        <span>Powered by Azure OpenAI GPT-4o + MCP</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ MOCKUP 2: DASHBOARD ═══════════════ -->
+<div class="mockup-label">Mockup 2 &mdash; Triage Dashboard</div>
+<div class="mockup-container">
+<div class="dashboard">
+  <div class="dash-topbar">
+    <div class="dash-logo">
+      <div class="mark">U</div>
+      IR&C Agent
+    </div>
+    <nav>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Triage Chat</a>
+      <a href="#">Reports</a>
+      <a href="#">Knowledge Base</a>
+      <a href="#">Settings</a>
+    </nav>
+  </div>
+  <div class="dash-content">
+    <div class="dash-stats">
+      <div class="stat-card">
+        <div class="stat-label">Active Incidents</div>
+        <div class="stat-value">7</div>
+        <div class="stat-change negative">&uarr; 2 from yesterday</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg. Time to Triage</div>
+        <div class="stat-value">4.2m</div>
+        <div class="stat-change positive">&darr; 62% vs manual</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">RCA Accuracy</div>
+        <div class="stat-value">91%</div>
+        <div class="stat-change positive">&uarr; 3% this month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg. Time to Resolution</div>
+        <div class="stat-value">28m</div>
+        <div class="stat-change positive">&darr; 44% vs baseline</div>
+      </div>
+    </div>
+    <div class="dash-grid">
+      <div class="dash-panel">
+        <div class="panel-title">Recent Incidents <span class="panel-badge">3 Active</span></div>
+        <div class="incident-row">
+          <span class="sev s1">SEV1</span>
+          <span class="inc-id">INC0012340</span>
+          <span class="inc-desc">Auth Service &ndash; Complete timeout in PROD</span>
+          <span class="ai-badge">AI Triaged</span>
+          <span class="inc-time">1h ago</span>
+        </div>
+        <div class="incident-row" style="background:var(--usb-blue-light);">
+          <span class="sev s2">SEV2</span>
+          <span class="inc-id">INC0012345</span>
+          <span class="inc-desc">Payment Gateway &ndash; 500 errors spike</span>
+          <span class="ai-badge">AI Triaged</span>
+          <span class="inc-time">5m ago</span>
+        </div>
+        <div class="incident-row">
+          <span class="sev s2">SEV2</span>
+          <span class="inc-id">INC0012335</span>
+          <span class="inc-desc">Partner API &ndash; Elevated p99 latency</span>
+          <span class="ai-badge">AI Triaged</span>
+          <span class="inc-time">6h ago</span>
+        </div>
+        <div class="incident-row">
+          <span class="sev s3">SEV3</span>
+          <span class="inc-id">INC0012338</span>
+          <span class="inc-desc">Transaction DB &ndash; Slow query performance</span>
+          <span class="ai-badge">AI Triaged</span>
+          <span class="inc-time">3h ago</span>
+        </div>
+        <div class="incident-row">
+          <span class="sev s3">SEV3</span>
+          <span class="inc-id">INC0012330</span>
+          <span class="inc-desc">Certificate expiry warning &ndash; staging env</span>
+          <span style="color:var(--usb-gray-400);font-size:12px;">Manual</span>
+          <span class="inc-time">1d ago</span>
+        </div>
+      </div>
+      <div class="dash-panel">
+        <div class="panel-title">AI Activity Feed</div>
+        <div class="activity-item">
+          <div class="activity-time">2 min ago</div>
+          <div class="activity-text"><strong>RCA Complete</strong> for INC0012345 &mdash; DB connection pool exhaustion (87% confidence)</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-time">5 min ago</div>
+          <div class="activity-text"><strong>Teams Notification</strong> sent to #incident-payments with adaptive card</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-time">12 min ago</div>
+          <div class="activity-text"><strong>Tool Invocation</strong>: datadog_query_logs returned 847 error entries for payment-gateway</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-time">1 hour ago</div>
+          <div class="activity-text"><strong>Triage Started</strong> for INC0012340 &mdash; Auth service timeout investigation</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-time">3 hours ago</div>
+          <div class="activity-text"><strong>Knowledge Indexed</strong>: 24 new Confluence pages synced to vector store</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ MOCKUP 3: TRIAGE REPORT ═══════════════ -->
+<div class="mockup-label">Mockup 3 &mdash; Triage Report View</div>
+<div class="mockup-container">
+<div class="report-view">
+  <div class="report-header">
+    <div>
+      <h2>INC0012345 &mdash; Root Cause Analysis Report</h2>
+      <div class="report-sub">Payment Gateway &middot; Production &middot; Generated April 3, 2026 at 14:35 UTC</div>
+    </div>
+    <div class="report-sev">SEV2</div>
+  </div>
+  <div class="report-body">
+    <div class="report-section">
+      <h3>Executive Summary</h3>
+      <p>The payment-gateway service experienced sustained 500 errors for 47 minutes beginning at 13:52 UTC on April 3, 2026. Root cause analysis with 87% confidence identifies database connection pool exhaustion triggered by increased query complexity introduced in deployment CHG0098765 at 13:45 UTC. The deployment modified payment query logic to use JOIN operations, increasing average query latency from 12ms to 38ms. This caused the fixed-size connection pool (max: 20) to reach 100% utilization within 7 minutes of deployment, resulting in ConnectionPoolExhausted exceptions for subsequent requests.</p>
+    </div>
+
+    <div class="report-section">
+      <h3>Incident Timeline</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">13:45 UTC</div>
+          <div class="tl-desc">CHG0098765 deployed to payment-gateway (updated query logic with JOIN operations)</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">13:48 UTC</div>
+          <div class="tl-desc">Average query latency begins increasing: 12ms &rarr; 25ms &rarr; 38ms</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">13:52 UTC</div>
+          <div class="tl-desc">Connection pool hits 100% utilization (20/20 active connections)</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">13:53 UTC</div>
+          <div class="tl-desc">First ConnectionPoolExhausted error logged; 500 responses begin</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">14:05 UTC</div>
+          <div class="tl-desc">Datadog alert fires: payment-gateway error rate > 5%</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">14:10 UTC</div>
+          <div class="tl-desc">INC0012345 created in ServiceNow by monitoring automation</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">14:30 UTC</div>
+          <div class="tl-desc">AI triage initiated &mdash; analysis completed in 18.4 seconds</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-section">
+      <h3>Evidence Matrix</h3>
+      <table class="evidence-table">
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Finding</th>
+            <th>Relevance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Datadog Metrics</strong></td>
+            <td>db.pool.active connections hit 100% (20/20) at 13:52 UTC</td>
+            <td><div class="relevance-bar"><div class="bar-fill" style="width:95%"></div></div>95%</td>
+          </tr>
+          <tr>
+            <td><strong>Datadog Logs</strong></td>
+            <td>847 ConnectionPoolExhausted errors in 47-minute window</td>
+            <td><div class="relevance-bar"><div class="bar-fill" style="width:92%"></div></div>92%</td>
+          </tr>
+          <tr>
+            <td><strong>ServiceNow Changes</strong></td>
+            <td>CHG0098765: Updated payment query logic with JOIN operations</td>
+            <td><div class="relevance-bar"><div class="bar-fill" style="width:88%"></div></div>88%</td>
+          </tr>
+          <tr>
+            <td><strong>Datadog APM</strong></td>
+            <td>Avg query latency increased from 12ms to 38ms post-deployment</td>
+            <td><div class="relevance-bar"><div class="bar-fill" style="width:85%"></div></div>85%</td>
+          </tr>
+          <tr>
+            <td><strong>Confluence Runbook</strong></td>
+            <td>Payment-gateway runbook recommends pool size &ge; 50 for peak load</td>
+            <td><div class="relevance-bar"><div class="bar-fill" style="width:72%"></div></div>72%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<div style="text-align:center;padding:40px 20px;color:var(--usb-gray-400);font-size:13px;">
+  &copy; 2026 U.S. Bank. All rights reserved. &middot; AI Incident Triage & RCA Agent &middot; Internal Use Only
+</div>
+
+</body>
+</html>
