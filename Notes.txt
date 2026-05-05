@@ -1,1 +1,4 @@
 
+I want you to create a shell script that can accept excel sheet that contains list of the vulnarability found in this project, and come up with remediation openrewrite recipe.
+
+This script should automatically create a git branch to put the recipe, and able to do a dry run options, also push the branch to the central repo. it should also need to add the open rewrite recipe maven plugin and other related depencies to run the open rewrite recipe. Plesse feel free to add any additional features that you think is approbriate in this shell script.
